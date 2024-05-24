@@ -1,0 +1,13 @@
+export TASK_NAME=superglue
+export DATASET_NAME=copa
+export CUDA_VISIBLE_DEVICES=1
+
+bs=8
+lr=5e-3
+dropout=0.1
+psl=20
+epoch=100
+tau=8
+
+cat $0 >> test.txt
+
