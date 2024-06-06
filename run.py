@@ -101,21 +101,9 @@ if __name__ == '__main__':
         assert data_args.dataset_name.lower() in SUPERGLUE_DATASETS
         from tasks.superglue.get_trainer import get_trainer
 
-    elif data_args.task_name.lower() == "glue":
-        assert data_args.dataset_name.lower() in GLUE_DATASETS
-        from tasks.glue.get_trainer import get_trainer
-
     elif data_args.task_name.lower() == "ner":
         assert data_args.dataset_name.lower() in NER_DATASETS
         from tasks.ner.get_trainer import get_trainer
-
-    elif data_args.task_name.lower() == "srl":
-        assert data_args.dataset_name.lower() in SRL_DATASETS
-        from tasks.srl.get_trainer import get_trainer
-    
-    elif data_args.task_name.lower() == "qa":
-        assert data_args.dataset_name.lower() in QA_DATASETS
-        from tasks.qa.get_trainer import get_trainer
         
     else:
         raise NotImplementedError('Task {} is not implemented. Please choose a task from: {}'.format(data_args.task_name, ", ".join(TASKS)))
@@ -142,19 +130,6 @@ if __name__ == '__main__':
     if training_args.do_train:
         train(trainer, training_args.resume_from_checkpoint, last_checkpoint)
 
-    # save_state = {}
-    # for param in model.state_dict():
-    #     if "classifier" in param or "pseudo_prefix_encoder" in param:
-    #         save_state.update({param : model.state_dict()[param]})
-    #         print(param)
-
-    # torch.save("/data/zhanghy/P-tuning-v2/saved_models/" + model_args.save_path, save_state)
-    #trainer.save_model("/data/zhanghy/P-tuning-v2/cache/ori")
-    #torch.save(trainer.model.state_dict(), "/data/zhanghy/P-tuning-v2/cache/model.pt")
-    # if training_args.do_eval:
-    #     evaluate(trainer)
-
-    #if training_args.do_predict:
-    #     predict(trainer, predict_dataset)
+    
 
    

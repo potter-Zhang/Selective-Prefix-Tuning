@@ -1,33 +1,5 @@
 from enum import Enum
 
-from model.token_classification import (
-    BertPrefixForTokenClassification,
-    RobertaPrefixForTokenClassification,
-    DebertaPrefixForTokenClassification,
-    DebertaV2PrefixForTokenClassification
-)
-
-from model.sequence_classification import (
-    BertPrefixForSequenceClassification,
-    BertPromptForSequenceClassification,
-    RobertaPrefixForSequenceClassification,
-    RobertaPromptForSequenceClassification,
-    DebertaPrefixForSequenceClassification
-)
-
-from model.question_answering import (
-    BertPrefixForQuestionAnswering,
-    RobertaPrefixModelForQuestionAnswering,
-    DebertaPrefixModelForQuestionAnswering
-)
-
-from model.multiple_choice import (
-    BertPrefixForMultipleChoice,
-    RobertaPrefixForMultipleChoice,
-    DebertaPrefixForMultipleChoice,
-    BertPromptForMultipleChoice,
-    RobertaPromptForMultipleChoice
-)
 
 
 from model.bert_select import (
@@ -44,10 +16,6 @@ from model.roberta_select import (
     RobertaSelectForTokenClassification,
     RobertaSelectForQuestionAnswering
 )
-
-#from model.chatglm_select import (
-#    ChatGLMForSequenceClassification
-#)
 
 from transformers import (
     AutoConfig,
@@ -81,47 +49,6 @@ SELECTIVE_MODELS = {
     
 }
 
-PREFIX_MODELS = {
-    "bert": {
-        TaskType.TOKEN_CLASSIFICATION: BertPrefixForTokenClassification,
-        TaskType.SEQUENCE_CLASSIFICATION: BertPrefixForSequenceClassification,
-        TaskType.QUESTION_ANSWERING: BertPrefixForQuestionAnswering,
-        TaskType.MULTIPLE_CHOICE: BertPrefixForMultipleChoice
-    },
-    "roberta": {
-        TaskType.TOKEN_CLASSIFICATION: RobertaPrefixForTokenClassification,
-        TaskType.SEQUENCE_CLASSIFICATION: RobertaPrefixForSequenceClassification,
-        TaskType.QUESTION_ANSWERING: RobertaPrefixModelForQuestionAnswering,
-        TaskType.MULTIPLE_CHOICE: RobertaPrefixForMultipleChoice,
-    },
-    "deberta": {
-        TaskType.TOKEN_CLASSIFICATION: DebertaPrefixForTokenClassification,
-        TaskType.SEQUENCE_CLASSIFICATION: DebertaPrefixForSequenceClassification,
-        TaskType.QUESTION_ANSWERING: DebertaPrefixModelForQuestionAnswering,
-        TaskType.MULTIPLE_CHOICE: DebertaPrefixForMultipleChoice,
-    },
-    "deberta-v2": {
-        TaskType.TOKEN_CLASSIFICATION: DebertaV2PrefixForTokenClassification,
-        TaskType.SEQUENCE_CLASSIFICATION: None,
-        TaskType.QUESTION_ANSWERING: None,
-        TaskType.MULTIPLE_CHOICE: None,
-    },
-    "chatglm": {
-        #TaskType.SEQUENCE_CLASSIFICATION: ChatGLMForSequenceClassification
-    }
-}
-
-PROMPT_MODELS = {
-    "bert": {
-        TaskType.SEQUENCE_CLASSIFICATION: BertPromptForSequenceClassification,
-        TaskType.MULTIPLE_CHOICE: BertPromptForMultipleChoice
-    },
-    "roberta": {
-        TaskType.SEQUENCE_CLASSIFICATION: RobertaPromptForSequenceClassification,
-        TaskType.MULTIPLE_CHOICE: RobertaPromptForMultipleChoice
-    }
-}
-
 AUTO_MODELS = {
     TaskType.TOKEN_CLASSIFICATION: AutoModelForTokenClassification,
     TaskType.SEQUENCE_CLASSIFICATION: AutoModelForSequenceClassification,
@@ -130,28 +57,7 @@ AUTO_MODELS = {
 }
 
 def get_model(model_args, task_type: TaskType, config: AutoConfig, fix_bert: bool = False):
-    if model_args.prefix:
-        config.hidden_dropout_prob = model_args.hidden_dropout_prob
-        config.pre_seq_len = model_args.pre_seq_len
-        config.prefix_projection = model_args.prefix_projection
-        config.prefix_hidden_size = model_args.prefix_hidden_size
-        
-        model_class = PREFIX_MODELS[config.model_type][task_type]
-       
-        model = model_class.from_pretrained(
-            pretrained_model_name_or_path = model_args.model_name_or_path,
-            config=config,
-            revision=model_args.model_revision,
-        )
-    elif model_args.prompt:
-        config.pre_seq_len = model_args.pre_seq_len
-        model_class = PROMPT_MODELS[config.model_type][task_type]
-        model = model_class.from_pretrained(
-            model_args.model_name_or_path,
-            config=config,
-            revision=model_args.model_revision,
-        )
-    elif model_args.selective_prefix:
+    if model_args.selective_prefix:
         config.pre_seq_len = model_args.pre_seq_len
         config.tau = model_args.tau
         config.selective_prefix = model_args.selective_prefix

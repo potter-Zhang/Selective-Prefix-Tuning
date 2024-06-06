@@ -56,7 +56,6 @@ from transformers.modeling_utils import (
 from transformers.utils import logging
 from transformers.models.bert.configuration_bert import BertConfig
 from model.selector import PrefixSelector, compute_regular_loss, PseudoPrefixEncoder
-from model.prefix_encoder import PrefixEncoder
 
 logger = logging.get_logger(__name__)
 

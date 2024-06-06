@@ -11,7 +11,7 @@ tau=8
 alpha=2e-4
 
 python3 run.py \
-  --model_name_or_path bert-large-cased \
+  --model_name_or_path /data/zhanghy/P-tuning-v2/local_models/bert-large-cased \
   --task_name $TASK_NAME \
   --dataset_name $DATASET_NAME \
   --do_train \
