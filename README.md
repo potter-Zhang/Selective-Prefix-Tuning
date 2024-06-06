@@ -1,7 +1,7 @@
 # Selective-Prefix-Tuning
 Implementation of paper Selective Prefix Tuning
 
-We use ![P-tuning-v2](https://github.com/THUDM/P-tuning-v2) as our codebase. 
+We use [P-tuning-v2](https://github.com/THUDM/P-tuning-v2) as our codebase. 
 Please note that the tau in this project refers to alpha, and the alpha in this project refers to lambda in the paper.
 
 ### Setup
