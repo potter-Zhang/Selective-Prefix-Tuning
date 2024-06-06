@@ -188,6 +188,12 @@ class ModelArguments:
             "help": "alpha for loss scaler"
         }
     )
+    save_path: str = field(
+        default="model",
+        metadata = {
+            "help" : "path to save model"
+        }
+    )
 
 @dataclass
 class QuestionAnwseringArguments:

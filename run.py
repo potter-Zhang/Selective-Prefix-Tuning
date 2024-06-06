@@ -141,6 +141,14 @@ if __name__ == '__main__':
     
     if training_args.do_train:
         train(trainer, training_args.resume_from_checkpoint, last_checkpoint)
+
+    # save_state = {}
+    # for param in model.state_dict():
+    #     if "classifier" in param or "pseudo_prefix_encoder" in param:
+    #         save_state.update({param : model.state_dict()[param]})
+    #         print(param)
+
+    # torch.save("/data/zhanghy/P-tuning-v2/saved_models/" + model_args.save_path, save_state)
     #trainer.save_model("/data/zhanghy/P-tuning-v2/cache/ori")
     #torch.save(trainer.model.state_dict(), "/data/zhanghy/P-tuning-v2/cache/model.pt")
     # if training_args.do_eval:
